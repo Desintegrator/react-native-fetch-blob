@@ -158,7 +158,7 @@ RCT_EXPORT_METHOD(createFile:(NSString *)path data:(NSString *)data encoding:(NS
     if(success == YES)
         callback(@[[NSNull null]]);
     else
-        callback(@[[NSString stringWithFormat:@"failed to create new file at path %@ please ensure the folder exists"]]);
+        callback(@[[NSString stringWithFormat:@"failed to create new file at path %@ please ensure the folder exists", path]]);
 
 }
 
@@ -180,7 +180,7 @@ RCT_EXPORT_METHOD(createFileASCII:(NSString *)path data:(NSArray *)dataArray cal
     if(success == YES)
         callback(@[[NSNull null]]);
     else
-        callback(@[[NSString stringWithFormat:@"failed to create new file at path %@ please ensure the folder exists"]]);
+        callback(@[[NSString stringWithFormat:@"failed to create new file at path %@ please ensure the folder exists", path]]);
 
 }
 

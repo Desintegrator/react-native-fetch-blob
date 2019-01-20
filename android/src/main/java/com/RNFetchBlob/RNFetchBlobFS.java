@@ -450,11 +450,14 @@ public class RNFetchBlobFS {
         path = normalizePath(path);
         InputStream in = null;
         OutputStream out = null;
+        
+        boolean callbackInvoked = false;
 
         try {
 
             if(!isPathExists(path)) {
                 callback.invoke("cp error: source file at path`" + path + "` not exists");
+                callbackInvoked = true;
                 return;
             }
             if(!new File(dest).exists())
@@ -471,6 +474,7 @@ public class RNFetchBlobFS {
 
         } catch (Exception err) {
             callback.invoke(err.getLocalizedMessage());
+            callbackInvoked = true;
         } finally {
             try {
                 if (in != null) {
@@ -479,9 +483,15 @@ public class RNFetchBlobFS {
                 if (out != null) {
                     out.close();
                 }
-                callback.invoke();
+                if (!callbackInvoked) {
+                    callback.invoke();
+                    callbackInvoked = true;
+                }
             } catch (Exception e) {
-                callback.invoke(e.getLocalizedMessage());
+                if (!callbackInvoked) {
+                    callback.invoke(e.getLocalizedMessage());
+                    callbackInvoked = true;
+                }
             }
         }
     }
